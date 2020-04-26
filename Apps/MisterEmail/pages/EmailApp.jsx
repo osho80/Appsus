@@ -1,11 +1,10 @@
-const { Link, Route, Switch } = ReactRouterDOM
-const Router = ReactRouterDOM.HashRouter
+const { Link } = ReactRouterDOM
 
 
-import EmailList from '../cmps/EmailList.jsx'
 import emailService from '../EmailServices/emailService.js'
-import EmailDetails from '../cmps/EmailDetails.jsx'
-import EmailApp from '../pages/EmailApp.jsx'
+import EmailList from '../cmps/EmailList.jsx'
+// import EmailDetails from '../cmps/EmailDetails.jsx'
+// import EmailApp from '../pages/EmailApp.jsx'
 
 
 
@@ -13,16 +12,17 @@ export class Email extends React.Component {
     state = {
         emails: null,
         filterBy: null,
-        selectedEmail: null,
     }
 
     componentDidMount() {
         this.loadEmails()
     }
 
-    loadEmails = () => {
-        const emails = emailService.query()
-        this.setState({ emails })
+    loadEmails() {
+        emailService.query()
+            .then(emails => {
+                this.setState({ emails })
+            })
     }
 
     onSelectEmail = (selectedEmail) => {
@@ -36,18 +36,14 @@ export class Email extends React.Component {
 
 
     render() {
-        // const { emails, selectedEmail } = this.state
+        const { emails } = this.state
         return (
-            <Router>
-            <main>
-                <Switch>
-                    <Route component={EmailDetails} path="/memail:theEmailId" />
-                    <Route componenet={EmailApp} path="/memail" />
-                </Switch>
-                {/* {selectedEmail && <EmailDetails email={selectedEmail} />}
-                {!selectedEmail && emails && < EmailList emails={emails} onSelectEmail={this.onSelectEmail} />} */}
-            </main>
-            </Router>
+
+            <section>
+                <Link to="/memail/compose">Compose</Link>
+                {emails && <EmailList emails={emails} />}
+            </section>
+
 
         )
     }
