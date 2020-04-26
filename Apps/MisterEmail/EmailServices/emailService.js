@@ -4,7 +4,8 @@ import utilService from '../../services/utilService.js'
 
 
 export default {
-    query
+    query,
+    getById
 }
 
 var gEmails = [{
@@ -32,4 +33,9 @@ var gEmails = [{
 
 function query() {
     return gEmails;
+}
+
+function getById(emailId) {
+    const email = gEmails.find(email => email.id === emailId)
+    return Promise.resolve(email);
 }
