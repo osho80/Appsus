@@ -22,16 +22,16 @@ export class App extends React.Component {
                             <li><Link to='/'>Home</Link></li>
                             <li><Link to='/about'>About</Link></li>
                             <li><Link to='/mbooks'>Books</Link></li>
-                            <li><Link to='/memail'>Email</Link></li>
+                            <li><Link to='/memail/inbox'>Email</Link></li>
                             <li><Link to='/mkeep'>Keep</Link></li>
                             
                         </ul>  
                     </header>
                     <main>
                         <Route component={Home} path="/" />
+                        <Route component={Email} path="/memail/inbox" />
                         {/* <Route component={About} path="/baout" /> */}
                         {/* <Route component={Books} path="/mbooks" /> */}
-                        <Route component={Email} path="/memail" />
                         <Route component={Keep} path="/mkeep" />
 
                         {/* <Home /> */}
