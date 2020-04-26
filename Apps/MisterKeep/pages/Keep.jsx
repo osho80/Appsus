@@ -1,3 +1,7 @@
+import keepService from '../keepServices/keepService.js'
+import storageService from '../../services/storageService.js'
+import {NotesList} from '../cmps/NotesList.jsx'
+
 const { NavLink, Route } = ReactRouterDOM
 
 
@@ -11,8 +15,28 @@ export class Keep extends React.Component {
         noteIdToEdit: null
     }
     
+    componentDidMount() {
+        console.log('CMP Mounted');
+        this.loadNotes();
+        
+    }
+
+    loadNotes = () => {
+        const notes = keepService.query();
+        this.setState({notes}, () => {
+            console.log('State: ', this.state);
+            
+        })
+    }
+
+    onSelectNote = (selectedNote) => {
+        this.setState({selectedNote})
+        console.log('selectedNote: ', selectedNote);
+        
+    }
     
     render() {
+        const {notes, selectedNote} = this.state
         return (
             <main className="keep-main">
                 <header className="keep-header">
@@ -23,11 +47,10 @@ export class Keep extends React.Component {
                     </select>
                     {/* <NavLink/> */}
                 </header>
-                <div className="pinned-notes">
-
-                </div>
-                <div className="other-notes">
-
+                <div className>
+                {!selectedNote && notes &&
+                   <NotesList onSelectNote={this.onSelectNote} notes = {notes} />}
+                   
                 </div>
             </main>
 
