@@ -28,7 +28,7 @@ export class App extends React.Component {
                         </ul>  
                     </header>
                     <main>
-                        <Route component={Home} path="/" />
+                        <Route exact component={Home} path="/" />
                         <Route component={Email} path="/memail/inbox" />
                         {/* <Route component={About} path="/baout" /> */}
                         {/* <Route component={Books} path="/mbooks" /> */}
