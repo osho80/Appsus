@@ -28,10 +28,10 @@ var gNotes = [
     },
     {
         id: "f4iuVm",
-        type: "NoteTodos",
+        type: "NoteList",
         info: {
             label: "How was it:",
-            todos: [
+            items: [
                 { txt: "Do that", doneAt: null },
                 { txt: "Do this", doneAt: 187111111 }
             ]
