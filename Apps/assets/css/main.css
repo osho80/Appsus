@@ -5,3 +5,18 @@
 body {
     background-color: lightblue;
 }
+
+
+/* HELPERS */
+
+.fles{
+    display: flex;
+}
+
+.space-between{
+    justify-content: space-between;
+}
+
+.space-around{
+    justify-content: space-around;
+}
