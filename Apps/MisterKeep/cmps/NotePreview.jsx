@@ -1,42 +1,29 @@
-import { NotesList } from "./NotesList";
+import {NoteText} from './NoteText.jsx'
+import {NoteImg} from './NoteImg.jsx'
+import {NoteList} from './NoteList.jsx'
+import {NoteVideo} from './NoteVideo.jsx'
 
 export function NotePreview(props) {
-    const { Link } = ReactRouterDOM
+    // const { Link } = ReactRouterDOM
     const { note } = props
-    console.log('notePreview props: ', note.type);
-    
-    state = {currCmp: null}
 
-    componentDidMount() {
-       
-        this.setState({note}, ()=> 
-        console.log('state is: ', state)
-        )
-        
+    const DynamicCmp = (note) => {
+        switch (note.type) {
+            case 'NoteText':
+                return <NoteText {...note}/>
+            case 'NoteImg':
+                return <NoteImg {...note}/>
+            case 'NoteList':
+                return <NoteList {...note}/>
+            case 'NoteVideo':
+                return <NoteVideo {...note}/>
+        }
     }
-
-
-
-
-    // DynamicCmp = (note) => {
-    //     switch (note.type) {
-    //         case 'NoteText':
-    //             return <NoteText {...note}/>
-    //         case 'NoteImg':
-    //             return <NoteImg {...note}/>
-    //         case 'NoteList':
-    //             return <NotesList {...note}/>
-    //         case 'NoteVideo':
-    //             return <NoteVideo {...note}/>
-    //     }
-    // }
 
     return (
         <div className="note-preview">
-            <h2 className="note-type">
-                {note.type}
-            </h2>
-            {/* <DynamicCmp currCmp={}/> */}
+            
+            {DynamicCmp(note)}
         </div>
     )
 }
