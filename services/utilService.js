@@ -1,3 +1,7 @@
+export default {
+    makeId
+}
+
 function makeId(length=6) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -7,8 +11,4 @@ function makeId(length=6) {
     }
 
     return text;
-}
-
-export default {
-    makeId
 }
