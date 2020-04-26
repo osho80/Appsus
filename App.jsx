@@ -33,10 +33,6 @@ export class App extends React.Component {
                         {/* <Route component={Books} path="/mbooks" /> */}
                         <Route component={Email} path="/memail" />
                         <Route component={Keep} path="/mkeep" />
-
-                        {/* <Home /> */}
-                        {/* <MisterEmail /> */}
-                        {/* <Timer heading="COUNTDOWN" targetTime={Date.now() + 1000 * 20} dueFunc={this.playSound}/> */}
                     </main>
 
                
