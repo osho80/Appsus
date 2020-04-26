@@ -9,7 +9,8 @@ export class NoteList extends React.Component {
         const note = this.props
         return (
             <div className="list-note">
-                <h1>{note.info.label}</h1>
+                <h1>{note.title}</h1>
+                <h2>{note.info.label}</h2>
                 <table className="list-items">
                     <tbody>
                         {note.info.items.map((item, Idx) => <tr key={Idx}>

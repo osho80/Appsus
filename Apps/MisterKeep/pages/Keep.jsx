@@ -1,6 +1,7 @@
 import keepService from '../keepServices/keepService.js'
 import storageService from '../../services/storageService.js'
 import { NotesList } from '../cmps/NotesList.jsx'
+import {AddNote} from '../cmps/AddNote.jsx'
 
 const { NavLink, Route } = ReactRouterDOM
 
@@ -45,12 +46,8 @@ export class Keep extends React.Component {
                     <select name="note-type" id="">
 
                     </select>
-                    <div className="add-note">
-                        <input type="text" placeholder="Add Note:" />
-                        <button>list</button>
-                        <button>img</button>
-                        <button>Video</button>
-                    </div>
+                    <AddNote/>
+                    
                     {/* <NavLink/> */}
                 </header>
                 <div className="juh">

@@ -10,6 +10,7 @@ var gNotes = [
     {
         id: "OXeMG8",
         type: "NoteText",
+        title:'',
         isPinned: true,
         info: {
             txt: "Fullstack Me Baby!"
@@ -18,6 +19,7 @@ var gNotes = [
     {
         id: "1y0Oqt",
         type: "NoteImg",
+        title: "Me playing Mi",
         info: {
             url: "https://store-images.s-microsoft.com/image/apps.6632.13914979749842905.9c677d6d-da11-477f-bc18-b44258890dc0.890a1e33-f92c-4690-a684-3fa619396282",
             title: "Me playing Mi"
@@ -29,6 +31,7 @@ var gNotes = [
     {
         id: "f4iuVm",
         type: "NoteList",
+        title: "How was it:",
         info: {
             label: "How was it:",
             items: [

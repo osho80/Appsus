@@ -4,8 +4,9 @@ export class NoteImg extends React.Component {
 
         return (
             <div className="img-note">
+                <h1>{note.title}</h1>
                 <img src={note.info.url}/>
-                <h1>{note.info.title}</h1>
+                <h2>{note.info.title}</h2>
             </div>
         )
     }
