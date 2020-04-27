@@ -6,7 +6,7 @@ const { Route, Switch, Link } = ReactRouterDOM
 import { Home } from './Apps/pages/Home.jsx'
 import { Email } from './Apps/MisterEmail/pages/EmailApp.jsx'
 import { Keep } from './Apps/MisterKeep/pages/Keep.jsx'
-import EmailDetails from './Apps/MisterEmail/cmps/EmailDetails.jsx'
+import EmailDetails from './Apps/MisterEmail/pages/EmailDetails.jsx'
 import ComposeEmail from './Apps/MisterEmail/cmps/ComposeEmail.jsx'
 
 

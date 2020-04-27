@@ -1,3 +1,4 @@
+const { Link } = ReactRouterDOM
 import emailService from "../EmailServices/emailService.js"
 
 export default class EmailDetails extends React.Component {
@@ -14,6 +15,7 @@ export default class EmailDetails extends React.Component {
                 this.setState({ email })
             })
     }
+
     removeEmail = () => {
         emailService.remove(this.state.email.id)
             .then(() => {
@@ -30,11 +32,13 @@ export default class EmailDetails extends React.Component {
     render() {
         const { email } = this.state
         return (
-            <section>
+            <section className="email-details">
                 {email && < div >
-                    <h2>{email.subject}</h2>
+                    <h2>From: {email.from}</h2>
+                    <h2>Subject: {email.subject}</h2>
                     <p>{email.body}</p>
                     <button onClick={this.removeEmail}>Delete</button>
+                    <button ><Link to='/memail' className="email-decoration-none">Back</Link></button>
                 </div >
                 }
 
