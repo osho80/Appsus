@@ -18,6 +18,11 @@ var gNotes = [
         info: {
             title: '',
             txt: "Fullstack Me Baby!"
+        },
+        display: {
+            bcgColor: '#80ff00',
+            txtColor: '#ff8000'
+
         }
     },
     {
@@ -27,8 +32,9 @@ var gNotes = [
             url: "https://store-images.s-microsoft.com/image/apps.6632.13914979749842905.9c677d6d-da11-477f-bc18-b44258890dc0.890a1e33-f92c-4690-a684-3fa619396282",
             title: "Me playing Mi"
         },
-        style: {
-            backgroundColor: "#00d"
+        display: {          // display was "style"
+            bcgColor: "#00d",     //bcgColor was "backgroundColor"
+            txtColor: '#000000'
         }
     },
     {
@@ -41,6 +47,11 @@ var gNotes = [
                 { txt: "Do that", doneAt: null },
                 { txt: "Do this", doneAt: 187111111 }
             ]
+        },
+        display: {
+            bcgColor: '#ffffff',
+            txtColor: '#000000'
+
         }
     }
 ];

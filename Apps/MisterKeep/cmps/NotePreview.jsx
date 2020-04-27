@@ -18,7 +18,7 @@ import keepService from '../keepServices/keepService.js'
 export function NotePreview(props) {
     // const { Link } = ReactRouterDOM
     const { note } = props
-
+    console.log('notePreview note: ', note)
     const DynamicCmp = (note) => {
         switch (note.type) {
             case 'NoteText':
@@ -32,13 +32,15 @@ export function NotePreview(props) {
         }
     }
 
-    
+    //debugger
     return (
-        <div className="note-preview">
-            <button className="note-dlt-btn" onClick={()=>props.onDelNote(note.id)}>X</button>
+        
+        <div className="note-preview" style={{color: note.display.txtColor, backgroundColor: note.display.bcgColor}}>
             {DynamicCmp(note)}
+            <button className="note-dlt-btn" onClick={()=>props.onDelNote(note.id)}>X</button>
         </div>
     )
 }
 
 // onClick={()=>onDelNote(note)}
+// style={{color: note.display.txtColor, backgroundColor: note.display.bcgColor}}
