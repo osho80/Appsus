@@ -9,7 +9,7 @@ export class NoteText extends React.Component {
             
         <div className="txt-note">
 
-            <h1>{note.title}</h1>
+            <h1>{note.info.title}</h1>
             <h2>{note.info.txt}</h2>
         </div>
         )

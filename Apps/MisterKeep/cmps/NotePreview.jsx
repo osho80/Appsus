@@ -4,11 +4,16 @@ import { NoteList } from './NoteList.jsx'
 import { NoteVideo } from './NoteVideo.jsx'
 import keepService from '../keepServices/keepService.js'
 
-function onDelNote(note) {
-    var noteToDel = keepService.getNoteIdxById(note.id);
-    console.log('del: ', noteToDel);
-    keepService.delNote(noteToDel);
-}
+
+
+
+// function onDelNote(note) {
+//     var noteToDel = keepService.getNoteIdxById(note.id);
+//     console.log('del: ', noteToDel);
+//     keepService.delNote(noteToDel);
+//     // keepService.loadNotesFromStorage();
+
+// }
 
 export function NotePreview(props) {
     // const { Link } = ReactRouterDOM
@@ -30,7 +35,7 @@ export function NotePreview(props) {
     
     return (
         <div className="note-preview">
-            <button className="note-dlt-btn" onClick={()=>onDelNote(note)}>X</button>
+            <button className="note-dlt-btn" onClick={()=>props.onDelNote(note.id)}>X</button>
             {DynamicCmp(note)}
         </div>
     )

@@ -6,22 +6,23 @@ const KEEP_KEY = 'notes';
 export default {
     query,
     getNoteIdxById,
-    delNote
+    delNote,
+    loadNotesFromStorage,
+    addNoteToStorage
 }
 var gNotes = [
     {
         id: "OXeMG8",
         type: "NoteText",
-        title:'',
         isPinned: true,
         info: {
+            title: '',
             txt: "Fullstack Me Baby!"
         }
     },
     {
         id: "1y0Oqt",
         type: "NoteImg",
-        title: "Me playing Mi",
         info: {
             url: "https://store-images.s-microsoft.com/image/apps.6632.13914979749842905.9c677d6d-da11-477f-bc18-b44258890dc0.890a1e33-f92c-4690-a684-3fa619396282",
             title: "Me playing Mi"
@@ -33,8 +34,8 @@ var gNotes = [
     {
         id: "f4iuVm",
         type: "NoteList",
-        title: "How was it:",
         info: {
+            title: "How was it:",
             label: "How was it:",
             items: [
                 { txt: "Do that", doneAt: null },
@@ -44,34 +45,57 @@ var gNotes = [
     }
 ];
 
-saveNotesToStorage();
+// saveNotesToStorage();
 
-function saveNotesToStorage(){
+function saveNotesToStorage() {
     storageService.store(KEEP_KEY, gNotes)
+}
+
+function loadNotesFromStorage() {
+    storageService.load(KEEP_KEY)
 }
 
 function _craeteNote() {
     console.log('Creating a note...');
-    
+
 }
+
+// function _createEmails() {
+//     gEmails = storageService.load(STORAGE_KEY, gDefaultEmails)
+//     storageService.store(STORAGE_KEY, gEmails)
+// }
+
 
 function query() {
-    return gNotes;
+    //return gNotes;
+    // debugger
+    let notes = storageService.load(KEEP_KEY, gNotes)
+    saveNotesToStorage();
+    return notes
 }
 
-function getNoteIdxById(id){
+function getNoteIdxById(id) {
     var noteIdx;
     gNotes.find((note, Idx) => {
-        if(id === note.id)  noteIdx= Idx
-       
-    })   
+        if (id === note.id) noteIdx = Idx
+
+    })
     return noteIdx
 }
 
-function delNote(idx) {
-    console.log('before del: ', gNotes);
-    gNotes.splice(idx, 1)
-    console.log('after del: ', gNotes);
+function delNote(id) {
+    var noteIdxToDel = gNotes.findIndex(note => note.id === id)
+    gNotes.splice(noteIdxToDel, 1);
     saveNotesToStorage()
+
+}
+
+function addNoteToStorage(note){
+    console.log('saving note got: ', note);
+    note.id = utilService.makeId();
+    console.log('id note: ', note)
+    gNotes.push(note);
+    saveNotesToStorage()
+    
     
 }

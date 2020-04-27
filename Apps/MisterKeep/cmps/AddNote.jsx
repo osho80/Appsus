@@ -1,120 +1,140 @@
 // import { AddText } from './AddText.jsx'
-import {NoteTools} from './NoteTools.jsx' 
-
+import { NoteTools } from './NoteTools.jsx'
+import keepService from '../keepServices/keepService.js'
+import services from '../../services/utilService.js'
 
 export class AddNote extends React.Component {
     state = {
+        isEditing: false,
         note: {
             type: 'NoteText',
             isPinned: false,
-            title: '',
             info: {
-                txt: ''
+                title: '',
+                txt: '',
+                url: ''
+            },
+            display: {
+                bcgColor: '#ffffff',
+                txtColor: '#000000'
+
             }
         }
     }
 
-    // openEditor = ({ target }) => {
-    //     this.openEditor
-    // }
+
 
     handleInput = ({ target }) => {
-        document.querySelector('.note-editor').hidden = false;
-        document.querySelector('.note-title').hidden = false;
-        // this.DynamicCmp();
+
         const field = target.name
         const value = target.value
         console.log('field: ', field);
         console.log('value: ', value);
 
         this.setState(prevState => {
+
+
             return {
-                ...prevState,
-                [field]: value
+                isEditing: true,
+                note: { ...prevState.note, info: { ...prevState.note.info, [field]: value } }
+
+            }
+        }, () => console.log('note after setState: ', this.state)
+        )
+    }
+
+    handleDispInput = ({ target }) => {
+
+        const field = target.name
+        const value = target.value
+        console.log('field: ', field);
+        console.log('value: ', value);
+
+        this.setState(prevState => {
+
+
+            return {
+                isEditing: true,
+                note: { ...prevState.note, display: { ...prevState.note.display, [field]: value } }
+
+            }
+        }, () => console.log('note after setState: ', this.state)
+        )
+    }
+
+    onSave = () => {
+        const { note } = this.state
+        this.setState({isEditing: false}, ()=> {
+
+            keepService.addNoteToStorage(note)
+            
+        })  
+    }
+
+    onDiscard = () => {
+        //how do I clear input?
+        console.log('Discarding...');
+        this.setState({
+            isEditing: false,
+            note: {
+                type: 'NoteText',
+                isPinned: false,
+                info: {
+                    title: '',
+                    txt: '',
+                    url: ''
+                },
+                display: {
+                    bcgColor: '#ffffff',
+                    txtColor: '#000000'
+
+                }
             }
         })
     }
 
-    setNoteType = (type) => {
-        console.log('Type: ', type);
-        // this.setState
-        
+    setNoteType = (noteType) => {
+        //debugger
+        const { note } = this.state
+
+        this.setState(prevState => {
+            return {
+
+                note: { ...prevState.note, type: noteType }
+            }
+        })
     }
-
-    // DynamicCmp = (note) => {
-    //     console.log('dynamic', note);
-        
-    //     switch (note.type) {
-    //         case 'NoteText':
-    //             return
-                
-    //                 <input type="text" placeholder="Text" name ="info.txt" onChange={this.handleInput}/>
-                
-    //         // case 'NoteText':
-    //         //     return <AddText {...note} />
-    //         //         case 'NoteImg':
-    //         //             return <AddImg {...note} />
-    //         //         case 'NoteList':
-    //         //             return <AddList {...note} />
-    //         //         case 'NoteVideo':
-    //         //             return <AddVideo {...note} />
-    //     }
-    // }
-
 
     render() {
         const { note } = this.state
-        // const { info } = note.info
+        const { isEditing } = this.state
         console.log('mynote is: ', note);
         console.log('note info: ', note.info);
 
-        // const elEditor = 
-
-        // const DynamicCmp = (note) => {
-        //     switch (note.type) {
-        //         case 'NoteText':
-        //             return
-                    
-        //                 <input type="text" placeholder="Text" name ="info.txt" onChange={this.handleInput}/>
-                    
-                // case 'NoteText':
-                //     return <AddText {...note} handleinput=  />
-                //         case 'NoteImg':
-                //             return <AddImg {...note} />
-                //         case 'NoteList':
-                //             return <AddList {...note} />
-                //         case 'NoteVideo':
-                //             return <AddVideo {...note} />
-        //     }
-        // }
 
         return (
             <React.Fragment>
                 <section className="add-note">
                     <div className="note-input">
-                        <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} hidden/>
-                        <input type="text" placeholder="Add Note:" name ="info.txt" onChange={this.handleInput}/>
+                        {isEditing &&
+                            <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} />}
+                        <input type="text" placeholder="Add Note:" name="txt" onChange={this.handleInput} />
+                        {(note.type === 'NoteImg') &&
+                            <input type="text" className="note-img" placeholder="Enter image Url" name="url" onChange={this.handleInput} />}
+                        {(note.type === 'NoteVideo') &&
+                            <input type="text" className="note-video" placeholder="Enter video Url" name="url" onChange={this.handleInput} />}
+                        {/* <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} hidden/> */}
                     </div>
-                    <button onClick={()=>this.setNoteType('NoteList')}>list</button>
-                    <button>img</button>
-                    <button>Video</button>
-                </section>
-                <section className="note-editor" hidden>
-                    <p>Note Editor</p>
-                    {/* <NoteTools note = {...note}/> */}
-                    {/* {DynamicCmp(note)} */}
-                </section>
-                {/* <section className="add-img-note" hidden>
-                    <p>Add Image Note</p>
-                </section>
-                <section className="add-list-note" hidden>
-                    <p>Add List Note</p>
-                </section>
-                <section className="add-video-note" hidden>
-                    <p>Add Video Note</p>
-                </section> */}
+                    <button onClick={() => this.setNoteType('NoteList')}>list</button>
+                    <button onClick={() => this.setNoteType('NoteImg')}>img</button>
+                    <button onClick={() => this.setNoteType('NoteVideo')}>Video</button>
 
+                    {isEditing && <button onClick={() => this.onSave()}>Save</button>}
+                    {isEditing && <button onClick={() => this.onDiscard()}>Discard</button>}
+                </section>
+                {isEditing && <NoteTools handleDispInput={this.handleDispInput} note={note} />}
             </React.Fragment>
         )
     }
 }
+

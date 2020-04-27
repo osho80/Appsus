@@ -36,6 +36,16 @@ export class Keep extends React.Component {
 
     }
 
+    onDelNote = (id) => {
+        keepService.delNote(id);
+        this.loadNotes();
+        
+    }
+
+    onSaveNote = (note) => {
+        keepService.addNoteToStorage(note)
+    }
+
     render() {
         const { notes, selectedNote } = this.state
         return (
@@ -46,13 +56,13 @@ export class Keep extends React.Component {
                     <select name="note-type" id="">
 
                     </select>
-                    <AddNote/>
+                    <AddNote onSaveNote={this.onSaveNote}/>
                     
                     {/* <NavLink/> */}
                 </header>
                 <div className="juh">
                     {!selectedNote && notes &&
-                        <NotesList onSelectNote={this.onSelectNote} notes={notes} />}
+                        <NotesList onSelectNote={this.onSelectNote} onDelNote={this.onDelNote} notes={notes} />}
 
                 </div>
             </main>
