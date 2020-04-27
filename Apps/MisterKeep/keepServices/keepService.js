@@ -4,7 +4,9 @@ import utilService from '../../services/utilService.js'
 const KEEP_KEY = 'notes';
 
 export default {
-    query
+    query,
+    getNoteIdxById,
+    delNote
 }
 var gNotes = [
     {
@@ -55,4 +57,21 @@ function _craeteNote() {
 
 function query() {
     return gNotes;
+}
+
+function getNoteIdxById(id){
+    var noteIdx;
+    gNotes.find((note, Idx) => {
+        if(id === note.id)  noteIdx= Idx
+       
+    })   
+    return noteIdx
+}
+
+function delNote(idx) {
+    console.log('before del: ', gNotes);
+    gNotes.splice(idx, 1)
+    console.log('after del: ', gNotes);
+    saveNotesToStorage()
+    
 }

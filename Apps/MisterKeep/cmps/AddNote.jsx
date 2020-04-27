@@ -1,4 +1,5 @@
-import { AddText } from './AddText.jsx'
+// import { AddText } from './AddText.jsx'
+import {NoteTools} from './NoteTools.jsx' 
 
 
 export class AddNote extends React.Component {
@@ -19,9 +20,13 @@ export class AddNote extends React.Component {
 
     handleInput = ({ target }) => {
         document.querySelector('.note-editor').hidden = false;
-
+        document.querySelector('.note-title').hidden = false;
+        // this.DynamicCmp();
         const field = target.name
         const value = target.value
+        console.log('field: ', field);
+        console.log('value: ', value);
+
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -30,6 +35,31 @@ export class AddNote extends React.Component {
         })
     }
 
+    setNoteType = (type) => {
+        console.log('Type: ', type);
+        // this.setState
+        
+    }
+
+    // DynamicCmp = (note) => {
+    //     console.log('dynamic', note);
+        
+    //     switch (note.type) {
+    //         case 'NoteText':
+    //             return
+                
+    //                 <input type="text" placeholder="Text" name ="info.txt" onChange={this.handleInput}/>
+                
+    //         // case 'NoteText':
+    //         //     return <AddText {...note} />
+    //         //         case 'NoteImg':
+    //         //             return <AddImg {...note} />
+    //         //         case 'NoteList':
+    //         //             return <AddList {...note} />
+    //         //         case 'NoteVideo':
+    //         //             return <AddVideo {...note} />
+    //     }
+    // }
 
 
     render() {
@@ -43,27 +73,35 @@ export class AddNote extends React.Component {
         // const DynamicCmp = (note) => {
         //     switch (note.type) {
         //         case 'NoteText':
-        //             return <AddText {...note} />
-        //         case 'NoteImg':
-        //             return <AddImg {...note} />
-        //         case 'NoteList':
-        //             return <AddList {...note} />
-        //         case 'NoteVideo':
-        //             return <AddVideo {...note} />
+        //             return
+                    
+        //                 <input type="text" placeholder="Text" name ="info.txt" onChange={this.handleInput}/>
+                    
+                // case 'NoteText':
+                //     return <AddText {...note} handleinput=  />
+                //         case 'NoteImg':
+                //             return <AddImg {...note} />
+                //         case 'NoteList':
+                //             return <AddList {...note} />
+                //         case 'NoteVideo':
+                //             return <AddVideo {...note} />
         //     }
         // }
 
         return (
             <React.Fragment>
                 <section className="add-note">
-                    <input type="text" placeholder="Add Note:" onChange={this.handleInput} />
-                    <button>list</button>
+                    <div className="note-input">
+                        <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} hidden/>
+                        <input type="text" placeholder="Add Note:" name ="info.txt" onChange={this.handleInput}/>
+                    </div>
+                    <button onClick={()=>this.setNoteType('NoteList')}>list</button>
                     <button>img</button>
                     <button>Video</button>
                 </section>
                 <section className="note-editor" hidden>
                     <p>Note Editor</p>
-                    {/* <NoteTools /> */}
+                    {/* <NoteTools note = {...note}/> */}
                     {/* {DynamicCmp(note)} */}
                 </section>
                 {/* <section className="add-img-note" hidden>
