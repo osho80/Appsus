@@ -6,6 +6,7 @@ export class NoteText extends React.Component {
         console.log('note', note);
         
         return(
+            
         <div className="txt-note">
 
             <h1>{note.title}</h1>
