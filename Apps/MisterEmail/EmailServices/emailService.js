@@ -1,5 +1,3 @@
-// change the fucking thing!
-
 import utilService from '../../services/utilService.js'
 import storageService from '../../services/storageService.js'
 
@@ -9,7 +7,8 @@ export default {
     query,
     getById,
     remove,
-    save
+    save,
+    getNextPrevEmail
 }
 
 const gDefaultEmails = [{
@@ -52,16 +51,10 @@ function getById(emailId) {
     return Promise.resolve(email);
 }
 
-function remove(emailId) {
-    const emailIdx = _getIdxById(emailId)
-    gEmails.splice(emailIdx, 1)
-
-    storageService.store(STORAGE_KEY, gEmails)
-    return Promise.resolve()
-}
 
 function _getIdxById(emailId) {
-    return gEmails.findIndex(email => email.id === emailId)
+    const emailIdx = gEmails.findIndex(email => email.id === emailId)
+    return Promise.resolve(emailIdx)
 }
 
 function save(emailToSave) {
@@ -82,6 +75,7 @@ function _createEmail(subject, body) {
         id: utilService.makeId(),
         sentAt: Date.now(),
         isRead: false,
+        isStarred:false
 
     }
 }
@@ -89,4 +83,31 @@ function _createEmail(subject, body) {
 function _createEmails() {
     gEmails = storageService.load(STORAGE_KEY, gDefaultEmails)
     storageService.store(STORAGE_KEY, gEmails)
+}
+
+function remove(emailId) {
+    const emailIdx = _getIdxById(emailId)
+    console.log(emailIdx);
+
+    gEmails.splice(emailIdx, 1)
+
+    storageService.store(STORAGE_KEY, gEmails)
+    return Promise.resolve()
+}
+
+function getNextPrevEmail(emailId) {
+    const emailIdx = _getIdxById(emailId)
+        .then(idx => {
+            if (idx === 0) {
+                var prevId = gEmails[idx].id
+            } else {
+                var prevId = gEmails[idx - 1].id;
+            }
+            var nextId = gEmails[idx + 1].id;
+            return {
+                nextId,
+                prevId
+            }
+        })
+    return emailIdx
 }

@@ -1,4 +1,4 @@
-import emailService from '../EmailServices/emailService.js'
+import emailService from '../emailServices/emailService.js'
 import utilService from '../../services/utilService.js'
 
 
@@ -9,6 +9,8 @@ export default class ComposeEmail extends React.Component {
             subject: '',
             body: '',
             id: '',
+            isRead: false,
+            isStarred: false,
         }
     }
 

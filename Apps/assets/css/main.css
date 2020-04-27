@@ -7,9 +7,11 @@ body {
 }
 
 
+
+
 /* HELPERS */
 
-.fles{
+.flex{
     display: flex;
 }
 
@@ -19,4 +21,8 @@ body {
 
 .space-around{
     justify-content: space-around;
+}
+
+.direction-column{
+    flex-direction: column;
 }

@@ -1,6 +1,6 @@
 const { Link } = ReactRouterDOM
 
-export default function CarPreview(props) {
+export default function EmailPreview(props) {
     const { email } = props
     return (
         <Link to={`/memail/${email.id}`} className="email-decoration-none">
