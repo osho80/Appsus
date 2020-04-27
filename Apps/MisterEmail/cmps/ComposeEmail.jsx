@@ -1,5 +1,4 @@
-import emailService from '../EmailServices/emailService.js'
-import utilService from '../../services/utilService.js'
+import emailService from '../emailServices/emailService.js'
 
 
 export default class ComposeEmail extends React.Component {
@@ -8,7 +7,9 @@ export default class ComposeEmail extends React.Component {
         email: {
             subject: '',
             body: '',
-            id:'',
+            id: '',
+            isRead: false,
+            isStarred: false,
         }
     }
 
@@ -20,23 +21,22 @@ export default class ComposeEmail extends React.Component {
                 email: {
                     ...prevState.email,
                     [field]: value,
-                    id: utilService.makeId()
                 }
             }
         })
     }
 
-    onSendEmail = (ev) => {
-        ev.preventDefault()
+    onSendEmail = () => {
         emailService.save(this.state.email)
-            .then(savedEmail => {
-                console.log('Email sent!', savedEmail);
+            .then(sentEmail => {
+                console.log('email sent', sentEmail);
                 this.props.history.push('/memail')
             })
-            .catch(err => {
-                console.log('Error', err);
-
+            .catch(ERR => {
+                console.log('Error, couldnt send the email', ERR);
             })
+
+
     }
 
     render() {
@@ -47,14 +47,8 @@ export default class ComposeEmail extends React.Component {
                 <label>Subject:</label>
                 <input autoFocus type="text" value={email.subject} onChange={this.handleInput} name="subject" />
                 <label>Message:</label>
-                <input type="text" value={email.body} onChange={this.handleInput} name="message" />
-                <button>Send</button>
-
-                <select name="" id="">
-                    <option value="Img">Img</option>
-                    <option value="Txt">Txt</option>
-                    <option value="Video">Video</option>
-                </select>
+                <input type="text" value={email.body} onChange={this.handleInput} name="body" />
+                <button onClick={this.onSendEmail}>Send</button>
             </div>
         )
     }

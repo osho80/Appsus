@@ -1,7 +1,15 @@
 .email-preview{
     background-color: gray;
     width: 70vw;
+    text-align: center;
 }
+
+.email-details{
+    background-color: gray;
+    width: 70vw;
+    text-align: center; 
+}
+
 
 Link{
     text-decoration: none;
@@ -10,5 +18,20 @@ Link{
 p{
     color: black;
 }
+
+
+.email-decoration-none{
+    color: black;
+    text-decoration: none;
+}
+
+.tabs{
+    border: 5px solid black;
+}
+
+.is-read{
+    background-color: brown;
+}
+
 
 

@@ -1,10 +1,10 @@
 const { Link } = ReactRouterDOM
 
 
-import emailService from '../EmailServices/emailService.js'
+import emailService from '../emailServices/emailService.js'
 import EmailList from '../cmps/EmailList.jsx'
-// import EmailDetails from '../cmps/EmailDetails.jsx'
-// import EmailApp from '../pages/EmailApp.jsx'
+import {EmailTabs} from '../cmps/EmailTabs.jsx'
+
 
 
 
@@ -28,6 +28,7 @@ export class Email extends React.Component {
     onSelectEmail = (selectedEmail) => {
         console.log('clicked');
         this.setState({ selectedEmail })
+        
 
     }
 
@@ -39,8 +40,8 @@ export class Email extends React.Component {
         const { emails } = this.state
         return (
 
-            <section>
-                <Link to="/memail/compose">Compose</Link>
+            <section className="email-main flex space-around">
+                {<EmailTabs/>}
                 {emails && <EmailList emails={emails} />}
             </section>
 
