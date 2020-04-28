@@ -1,3 +1,4 @@
+const { Link } = ReactRouterDOM
 import emailService from '../emailServices/emailService.js'
 
 
@@ -49,6 +50,7 @@ export default class ComposeEmail extends React.Component {
                 <label>Message:</label>
                 <input type="text" value={email.body} onChange={this.handleInput} name="body" />
                 <button onClick={this.onSendEmail}>Send</button>
+                <button><Link to='/memail' className="email-decoration-none">Trash</Link></button>
             </div>
         )
     }

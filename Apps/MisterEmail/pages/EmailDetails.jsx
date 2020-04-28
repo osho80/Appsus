@@ -1,22 +1,17 @@
 const { Link } = ReactRouterDOM
 import emailService from "../emailServices/emailService.js"
 
+
 export default class EmailDetails extends React.Component {
     state = {
         email: null
     }
 
+
     componentDidMount() {
         const id = this.props.match.params.theEmailId
-
-        emailService.getNextPrevEmail(id)
-            .then(res => {
-                this.prevNext = res
-                emailService.getById(id)
-                    .then(email => {
-                        this.setState({ email })
-                    })
-            })
+        this.loadEmail()
+        this.onRead(id)
     }
 
     componentDidUpdate(prevProps) {
@@ -25,18 +20,20 @@ export default class EmailDetails extends React.Component {
         }
     }
 
-    loadEmail() {
+    loadEmail = () => {
         const id = this.props.match.params.theEmailId
-        emailService.getById(id)
-            .then(email => this.setState({ email }))
+        emailService.getNextPrevEmail(id)
+            .then(res => {
+                this.prevNext = res
+                emailService.getById(id)
+                    .then(email => this.setState({ email }))
+            })
     }
 
 
 
 
     removeEmail = () => {
-        console.log('clicked');
-
         emailService.remove(this.state.email.id)
             .then(() => {
                 this.props.history.push('/memail')
@@ -44,30 +41,32 @@ export default class EmailDetails extends React.Component {
             .catch(err => {
                 alert('somthing went wrong')
                 console.log('ERR', err);
-
             })
     }
 
 
     onRead = () => {
-        this.setState(prevState => {
-            return {
-                email: { ...prevState.email, isRead: true }
-            }
-        })
+        const id = this.props.match.params.theEmailId
+        emailService.setIsRead(id)
+    }
+
+    onStarred = () => {
+        const id = this.props.match.params.theEmailId
+        emailService.setIsStarred(id)
+        this.loadEmail()
     }
 
 
-
-
     render() {
+
         const { email } = this.state
         return (email &&
-            <section className={(email.isRead) ? "email-details is-read" : "email-details"}>
+            <section className="email-details">
                 {email && < div >
                     <h2>From: {email.from}</h2>
                     <h2>Subject: {email.subject}</h2>
                     <p>{email.body}</p>
+                    <img onClick={this.onStarred} className="star-img" src={`Apps/misterEmail/assets/img/star${email.isStarred ? 'Gold' : 'black'}.png`} />
                     <button onClick={this.removeEmail}>Delete</button>
                     <button><Link to='/memail' className="email-decoration-none">Back</Link></button>
                     {this.prevNext && <div>
