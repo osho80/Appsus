@@ -1,7 +1,8 @@
 import keepService from '../keepServices/keepService.js'
 import storageService from '../../services/storageService.js'
 import { NotesList } from '../cmps/NotesList.jsx'
-import {AddNote} from '../cmps/AddNote.jsx'
+import { AddNote } from '../cmps/AddNote.jsx'
+import { Search } from '../cmps/SearchNote.jsx'
 
 const { NavLink, Route } = ReactRouterDOM
 
@@ -39,11 +40,14 @@ export class Keep extends React.Component {
     onDelNote = (id) => {
         keepService.delNote(id);
         this.loadNotes();
-        
+
     }
 
     onSaveNote = (note) => {
         keepService.addNoteToStorage(note)
+        this.loadNotes();
+        console.log('onSaveNote is working...');
+
     }
 
     render() {
@@ -52,12 +56,13 @@ export class Keep extends React.Component {
             <main className="keep-main">
                 <header className="keep-header">
                     <h1>My Brother's Keeper </h1>
-                    <input type="text" placeholder="Search Notes" />
+                    <SearchNote onSearch={this.onSearch} />
+                    
                     <select name="note-type" id="">
 
                     </select>
-                    <AddNote onSaveNote={this.onSaveNote}/>
-                    
+                    <AddNote onSaveNote={this.onSaveNote} />
+
                     {/* <NavLink/> */}
                 </header>
                 <div className="juh">

@@ -2,6 +2,7 @@ import storageService from '../../services/storageService.js'
 import utilService from '../../services/utilService.js'
 
 const KEEP_KEY = 'notes';
+var gNotes; 
 
 export default {
     query,
@@ -10,7 +11,7 @@ export default {
     loadNotesFromStorage,
     addNoteToStorage
 }
-var gNotes = [
+var gDefNotes = [
     {
         id: "OXeMG8",
         type: "NoteText",
@@ -42,7 +43,6 @@ var gNotes = [
         type: "NoteList",
         info: {
             title: "How was it:",
-            label: "How was it:",
             items: [
                 { txt: "Do that", doneAt: null },
                 { txt: "Do this", doneAt: 187111111 }
@@ -56,7 +56,7 @@ var gNotes = [
     }
 ];
 
-// saveNotesToStorage();
+
 
 function saveNotesToStorage() {
     storageService.store(KEEP_KEY, gNotes)
@@ -77,12 +77,12 @@ function _craeteNote() {
 // }
 
 
-function query() {
+function query(filterBy, search) {
     //return gNotes;
     // debugger
-    let notes = storageService.load(KEEP_KEY, gNotes)
+    gNotes = storageService.load(KEEP_KEY, gDefNotes)
     saveNotesToStorage();
-    return notes
+    return gNotes
 }
 
 function getNoteIdxById(id) {

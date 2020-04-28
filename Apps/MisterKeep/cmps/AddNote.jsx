@@ -2,8 +2,15 @@
 import { NoteTools } from './NoteTools.jsx'
 import keepService from '../keepServices/keepService.js'
 import services from '../../services/utilService.js'
+import storageService from '../../services/storageService.js'
+
+
 
 export class AddNote extends React.Component {
+    // constructor(props) {
+    //     super(props)
+    // }
+
     state = {
         isEditing: false,
         note: {
@@ -62,13 +69,33 @@ export class AddNote extends React.Component {
         )
     }
 
+    handleListInput = ({ target }) => {
+        const value = target.value
+        let inputItems = value.split(',');
+        console.log('Input items: ', inputItems);
+        let items = inputItems.map(item => {
+            return { txt: item, doneAt: null }
+        })
+        console.log('List items: ', items);
+
+
+        this.setState(prevState => {
+            return {
+                isEditing: true,
+                note: { ...prevState.note, info: { ...prevState.note.info, items } }
+            }
+        }, () => console.log('note after List setState: ', this.state))
+
+
+    }
+
+    
     onSave = () => {
         const { note } = this.state
-        this.setState({isEditing: false}, ()=> {
-
-            keepService.addNoteToStorage(note)
-            
-        })  
+        this.setState({ isEditing: false }, () => {
+            this.props.onSaveNote(note)
+            this.onDiscard();
+        })
     }
 
     onDiscard = () => {
@@ -117,18 +144,21 @@ export class AddNote extends React.Component {
                 <section className="add-note">
                     <div className="note-input">
                         {isEditing &&
-                            <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} />}
-                        <input type="text" placeholder="Add Note:" name="txt" onChange={this.handleInput} />
+                            <input type="text" className="note-title" placeholder="Title" value={note.info.title} name="title" onChange={this.handleInput} />}
+                        {!(note.type === 'NoteList') &&
+                            <input type="text" placeholder="Add Note:" value={note.info.txt} name="txt" onChange={this.handleInput} />}
                         {(note.type === 'NoteImg') &&
-                            <input type="text" className="note-img" placeholder="Enter image Url" name="url" onChange={this.handleInput} />}
+                            <input type="text" className="note-img" placeholder="Enter image URL" name="url" onChange={this.handleInput} />}
                         {(note.type === 'NoteVideo') &&
-                            <input type="text" className="note-video" placeholder="Enter video Url" name="url" onChange={this.handleInput} />}
-                        {/* <input type="text" className="note-title" placeholder="Title" name="title" onChange={this.handleInput} hidden/> */}
+                            <input type="text" className="note-video" placeholder="Enter video URL" name="url" onChange={this.handleInput} />}
+                        {(note.type === 'NoteList') &&
+                            <input autoFocus type="text" className="note-list" placeholder="Enter comma seperated list" name="list" onChange={this.handleListInput} />}
                     </div>
                     <button onClick={() => this.setNoteType('NoteList')}>list</button>
                     <button onClick={() => this.setNoteType('NoteImg')}>img</button>
                     <button onClick={() => this.setNoteType('NoteVideo')}>Video</button>
 
+                    {/* {isEditing && <button onClick={() => props.onSaveNote()}>Save</button>} */}
                     {isEditing && <button onClick={() => this.onSave()}>Save</button>}
                     {isEditing && <button onClick={() => this.onDiscard()}>Discard</button>}
                 </section>
