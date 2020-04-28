@@ -79,10 +79,17 @@ function _craeteNote() {
 
 function query(filterBy, search) {
     //return gNotes;
-    // debugger
+    //debugger
     gNotes = storageService.load(KEEP_KEY, gDefNotes)
+    var notes = gNotes
     saveNotesToStorage();
-    return gNotes
+    if(search) {
+        notes = gNotes.filter(note => note.info.title.toLowerCase().includes(search) )
+    }
+    if(filterBy && filterBy !== 'all') {
+        notes = gNotes.filter(note => note.type === filterBy)
+    }
+    return Promise.resolve(notes);
 }
 
 function getNoteIdxById(id) {

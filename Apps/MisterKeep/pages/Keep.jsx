@@ -2,7 +2,8 @@ import keepService from '../keepServices/keepService.js'
 import storageService from '../../services/storageService.js'
 import { NotesList } from '../cmps/NotesList.jsx'
 import { AddNote } from '../cmps/AddNote.jsx'
-import { Search } from '../cmps/SearchNote.jsx'
+import { SearchNote } from '../cmps/SearchNote.jsx'
+import { FilterBy } from '../cmps/FilterBy.jsx'
 
 const { NavLink, Route } = ReactRouterDOM
 
@@ -23,12 +24,31 @@ export class Keep extends React.Component {
 
     }
 
-    loadNotes = () => {
-        const notes = keepService.query();
-        this.setState({ notes }, () => {
-            console.log('State: ', this.state);
 
-        })
+    onSearch = (str) => {
+        let value = str.toLowerCase();
+        this.setState({ search: value }, () => this.loadNotes());
+    }
+
+    onFilterBy = (value) => {
+        console.log('onFilterBy got: ', value);
+        this.setState({ filterBy: value }, () => this.loadNotes()); 
+        //console.log('filter state: ', this.state.filterBy))
+        //
+    }
+
+    loadNotes = () => {
+        //const notes =
+        //debugger 
+        keepService.query(this.state.filterBy, this.state.search)
+            .then(notes => {
+                this.setState({ notes }, () => console.log('new State: ', this.state)
+                )
+            })
+        // this.setState({ notes }, () => {
+        //     console.log('new State: ', this.state);
+
+        // })
     }
 
     onSelectNote = (selectedNote) => {
@@ -50,6 +70,7 @@ export class Keep extends React.Component {
 
     }
 
+
     render() {
         const { notes, selectedNote } = this.state
         return (
@@ -57,10 +78,7 @@ export class Keep extends React.Component {
                 <header className="keep-header">
                     <h1>My Brother's Keeper </h1>
                     <SearchNote onSearch={this.onSearch} />
-                    
-                    <select name="note-type" id="">
-
-                    </select>
+                    <FilterBy onFilterBy={this.onFilterBy} />
                     <AddNote onSaveNote={this.onSaveNote} />
 
                     {/* <NavLink/> */}
