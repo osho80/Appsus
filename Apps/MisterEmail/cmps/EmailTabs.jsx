@@ -9,12 +9,9 @@ export class EmailTabs extends React.Component {
             <section className="tabs flex direction-column ">
                 <h1>email tabs</h1>
                 <Link to="/memail/compose" className="email-decoration-none">Compose</Link>
-                <span>STARRED</span>
+                <Link to="/memail/starred" className="email-decoration-none">Starred</Link>
                 <span>SENT MAIL</span>
-
             </section>
-
-
         )
     }
 }

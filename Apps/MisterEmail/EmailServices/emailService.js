@@ -8,7 +8,9 @@ export default {
     getById,
     remove,
     save,
-    getNextPrevEmail
+    getNextPrevEmail,
+    setIsRead,
+    setIsStarred
 }
 
 const gDefaultEmails = [{
@@ -18,6 +20,7 @@ const gDefaultEmails = [{
         body: 'hello world, its a beautiful day',
         isRead: false,
         sentAt: Date.now(),
+        isStarred: false
     },
     {
         from: 'Almog',
@@ -26,6 +29,7 @@ const gDefaultEmails = [{
         body: 'goodbye world, its a an awfal day',
         isRead: false,
         sentAt: Date.now(),
+        isStarred: false
     },
     {
         from: 'Almog',
@@ -34,6 +38,7 @@ const gDefaultEmails = [{
         body: 'here we go again',
         isRead: false,
         sentAt: Date.now(),
+        isStarred: false
     }
 ]
 
@@ -41,8 +46,13 @@ var gEmails = null
 
 _createEmails()
 
-function query() {
+function query(filterBy) {
+ 
     var emails = gEmails
+    if (filterBy) {
+        emails = gEmails.filter(email => email.body.includes(filterBy.filterBy))
+    }
+
     return Promise.resolve(emails);
 }
 
@@ -75,7 +85,7 @@ function _createEmail(subject, body) {
         id: utilService.makeId(),
         sentAt: Date.now(),
         isRead: false,
-        isStarred:false
+        isStarred: false
 
     }
 }
@@ -98,16 +108,38 @@ function remove(emailId) {
 function getNextPrevEmail(emailId) {
     const emailIdx = _getIdxById(emailId)
         .then(idx => {
-            if (idx === 0) {
+            //getting  Prev Id / first Id
+            if (!idx) {
+
                 var prevId = gEmails[idx].id
             } else {
                 var prevId = gEmails[idx - 1].id;
             }
-            var nextId = gEmails[idx + 1].id;
+            //getting  Next Id / last Id
+            if ((idx + 1) === gEmails.length) {
+                var nextId = gEmails[idx].id;
+            } else {
+                var nextId = gEmails[idx + 1].id;
+            }
             return {
                 nextId,
                 prevId
             }
         })
+    setIsRead(emailId)
     return emailIdx
+}
+
+function setIsRead(id) {
+    const email = gEmails.find(email => email.id === id)
+    email.isRead = true
+    storageService.store(STORAGE_KEY, gEmails)
+}
+
+function setIsStarred(id) {
+    const email = gEmails.find(email => email.id === id)
+    email.isStarred = !email.isStarred
+    storageService.store(STORAGE_KEY, gEmails)
+    console.log(email);
+
 }
